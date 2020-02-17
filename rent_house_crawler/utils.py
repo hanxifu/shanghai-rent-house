@@ -18,16 +18,18 @@ def _get_or_created(session, model, **kwargs):
         return instance, True
 
 
-def _add_m2m_relationship(secondary_ref, instance):
+def _add_m2m_relationship(session, secondary_ref, instance):
     """
     Check if the instance exists in the many-to-many secondary_ref table.
     Append the instance if not exists.
+    :param session: database session
     :param secondary_ref: secondary table reference
     :param instance: model instance
     :return: None
     """
     if instance not in secondary_ref:
         secondary_ref.append(instance)
+        session.commit()
 
 
 def get_or_create(session, model, **kwargs):
@@ -53,6 +55,5 @@ def get_or_create_m2m(session, model, secondary_ref, **kwargs):
     :return: (instance, created)
     """
     instance, created = _get_or_created(session, model, **kwargs)
-    _add_m2m_relationship(secondary_ref, instance)
-    session.commit()
+    _add_m2m_relationship(session, secondary_ref, instance)
     return instance, created

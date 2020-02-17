@@ -78,7 +78,7 @@ class Bizcircle(db.Model):
     name = db.Column(db.String(100), nullable=False)
     name_zh = db.Column(db.String(100), nullable=False)
 
-    # many-to-many Line<->Bizcircle
+    # many-to-many Bizcircle<->Community
     communities = db.relationship('Community', secondary=community_bizcircles_table, lazy='subquery',
                                   backref=db.backref('bizcircles', lazy=True))
 
