@@ -92,10 +92,11 @@ class Bizcircle(db.Model):
 
 class Community(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    district_id = db.Column(db.Integer, db.ForeignKey('district.id'))
+    city_id = db.Column(db.Integer, db.ForeignKey('city.id'))
     name = db.Column(db.String(100), nullable=False)
     name_zh = db.Column(db.String(100), nullable=False)
-    year = db.Column(db.DateTime)
+    year = db.Column(db.Integer)
+    price = db.Column(db.Integer)
     flats = db.relationship('Flat', backref='community', lazy=True)
 
     def __str__(self):

@@ -1,5 +1,8 @@
 import random
 
+import requests
+from lxml import etree
+
 from . import PLATFORM
 
 USER_AGENTS = [
@@ -27,3 +30,15 @@ def create_headers():
     headers['User-Agent'] = random.choice(USER_AGENTS)
     headers['Referer'] = f'http://www.{PLATFORM}.com'
     return headers
+
+
+def get_root_element(url: str, timeout: int = 10):
+    """
+    Return the root element of the URL HTML.
+    :param url: URL path
+    :param timeout: timeout seconds
+    :return: root element
+    """
+    headers = create_headers()
+    response = requests.get(url, timeout=timeout, headers=headers)
+    return etree.HTML(response.content)
